@@ -76,6 +76,6 @@ with st.echo(code_location='below'):
 
     chart_data = dfCooker(
      np.random.randn(20, 3),
-     columns = dfCooker.columns)
+     columns = ['wonton_cooker_temp1','wonton_cooker_temp3','wonton_cooker_temp2'])
 
     st.line_chart(chart_data)
