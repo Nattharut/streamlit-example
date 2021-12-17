@@ -75,8 +75,6 @@ with st.echo(code_location='below'):
     dfCooker = dfCooker.fillna(method='bfill')
 
    
- 
-    """### Time series plot"""
     total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
     num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
     
@@ -84,12 +82,5 @@ with st.echo(code_location='below'):
     st.date_input('start date')
     st.date_input('end date')
    
-    
-
    
-
-    chart_data = pd.DataFrame(
-     np.random.randn(20, 3),
-     columns=['a', 'b', 'c'])
-
     st.line_chart(dfCooker)
