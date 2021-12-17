@@ -44,7 +44,9 @@ with st.echo(code_location='below'):
     start_time = st.date_input('start date')
 
     end_time = st.date_input('end date')
-
+    
+    st.title(start_time)
+    
     tags = st.text_input("input tags")
     st.title(tags)
     if tags and start_time and end_time:
