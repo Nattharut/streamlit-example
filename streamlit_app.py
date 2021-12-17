@@ -41,9 +41,9 @@ with st.echo(code_location='below'):
     num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
 
     st.header("Official Date Picker")
-    start_time = st.date_input('start date')
-
-    end_time = st.date_input('end date')
+    start_time = st.date_input('start date')+'T00:00:00Z'
+    
+    end_time = st.date_input('end date')+'T23:59:59Z'
     
     st.title(start_time)
     
