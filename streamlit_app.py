@@ -73,10 +73,6 @@ with st.echo(code_location='below'):
     dfCooker.columns = ['wonton_cooker_temp1','wonton_cooker_temp3','wonton_cooker_temp2']
 
     dfCooker = dfCooker.fillna(method='bfill')
-
-   
-    total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
     
     st.header("Official Date Picker")
     st.date_input('start date')
