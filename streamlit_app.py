@@ -7,6 +7,7 @@ import requests
 import os
 import json
 import numpy as np
+import datetime
 
 
 """
@@ -22,7 +23,19 @@ In the meantime, below is an example of what you can do with just a few lines of
 
 
 with st.echo(code_location='below'):
-
+    
+    today = datetime.date.today()
+    tomorrow = today + datetime.timedelta(days=1)
+    start_date = st.date_input('Start date', today)
+    end_date = st.date_input('End date', tomorrow)
+    if start_date < end_date:
+        st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
+    else:
+        st.error('Error: End date must fall after start date.')
+    total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
+    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+    
+    
     email = os.environ.get('email')
     password = os.environ.get('password')
 
@@ -71,8 +84,7 @@ with st.echo(code_location='below'):
    
     
 
-    total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
+   
 
     chart_data = pd.DataFrame(
      np.random.randn(20, 3),
