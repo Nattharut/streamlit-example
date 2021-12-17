@@ -46,7 +46,8 @@ if access_token:
         
         end_time = st.date_input('end date')
         
-        tags = st.text_input('Movie title', 'Life of Brian')
+       
+        tags = st.text_input("label goes here", '1403,1405,1406')
        
 
 
