@@ -37,9 +37,6 @@ with st.echo(code_location='below'):
     access_token = json.loads(response.content)['access_token']
 
 
-    total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
-
     st.header("Official Date Picker")
     start_time = str(st.date_input('start date'))+'T00:00:00Z'
     
@@ -64,6 +61,7 @@ with st.echo(code_location='below'):
         }
 
         response = requests.get(data_url, headers=headers_api)
+        st.title(response.status_code)
         if response.status_code == 200:
 
             df = pd.DataFrame.from_dict(response.json()['query_results'])
