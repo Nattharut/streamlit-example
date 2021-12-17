@@ -32,7 +32,7 @@ token_url = f'http://54.254.86.214:2002/api/users/login/token/?email=nattharut.n
 response = requests.post(token_url)
 access_token = json.loads(response.content)['access_token']
 
-if access_token is not Null:
+if access_token is not null:
     with st.echo(code_location='below'):
 
 
