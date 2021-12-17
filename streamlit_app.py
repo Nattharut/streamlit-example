@@ -62,8 +62,8 @@ with st.echo(code_location='below'):
         }
 
         response = requests.get(data_url, headers=headers_api)
-        print(response.status_code)
-
+        st.title(response.status_code)
+'''
         df = pd.DataFrame.from_dict(response.json()['query_results'])
 
         pd.set_option('max_colwidth', 400)
@@ -85,3 +85,4 @@ with st.echo(code_location='below'):
 
         st.line_chart(dfCooker)
 
+'''
