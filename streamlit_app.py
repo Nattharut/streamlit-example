@@ -55,6 +55,8 @@ if access_token:
 
 
             data_url = f'http://54.254.86.214:2002/api/klaeng/analytics/shrimp-wonton/ti/?start={start_time}&end={end_time}&tags={tags}'
+        
+            print(data_url)
 
             headers_api = {
                 'Authorization': 'Bearer ' + access_token
