@@ -1,8 +1,12 @@
 from collections import namedtuple
 import altair as alt
 import math
-import pandas as pd
 import streamlit as st
+import pandas as pd
+import requests
+import os
+import json
+import matplotlib.pyplot as plt
 
 """
 # Welcome to Streamlit!
@@ -17,6 +21,78 @@ In the meantime, below is an example of what you can do with just a few lines of
 
 
 with st.echo(code_location='below'):
+
+    email = os.environ.get('email')
+    password = os.environ.get('password')
+
+    """#### Get access token, token will have 24 hour access time."""
+
+    token_url = f'http://54.254.86.214:2002/api/users/login/token/?email=nattharut.nat@cpf.co.th&password=nat221NA'
+    response = requests.post(token_url)
+
+    access_token = json.loads(response.content)['access_token']
+
+    """#### Get data from url by selecting start_time, end_time and required tags."""
+
+    start_time = '2021-12-01T00:00:00Z'
+    end_time = '2021-12-16T23:59:00Z'
+    tags = '1403,1405,1406'
+
+    data_url = f'http://54.254.86.214:2002/api/klaeng/analytics/shrimp-wonton/ti/?start={start_time}&end={end_time}&tags={tags}'
+
+    headers_api = {
+        'Authorization': 'Bearer ' + access_token
+    }
+
+    response = requests.get(data_url, headers=headers_api)
+    print(response.status_code)
+
+    df = pd.DataFrame.from_dict(response.json()['query_results'])
+
+    pd.set_option('max_colwidth', 400)
+    df = df[['timestamp','tag_index','tag_name','value']]
+
+    df.head()
+
+    df.info()
+
+    df.timestamp = pd.to_datetime(df.timestamp)
+    df.set_index(df.timestamp,inplace=True)
+
+    df.value = round(df.value.astype(int)/10,2)
+
+    dfCooker = pd.pivot_table(df, values='value', index=df.index, columns=['tag_index','tag_name'])
+    dfCooker.columns = ['wonton_cooker_temp1','wonton_cooker_temp3','wonton_cooker_temp2']
+
+    dfCooker = dfCooker.fillna(method='bfill')
+
+    dfCooker.head()
+
+    dfCooker.describe()
+
+    """### Boxplot"""
+
+    ax1 = dfCooker.boxplot()
+    plt.show()
+
+    """### Distribution plot"""
+
+    ax2 = dfCooker.plot(kind='hist', bins=100)
+    plt.show()
+
+    """### Time series plot"""
+
+    import matplotlib.pyplot as plt
+    # plt.style.use('fivethirtyeight')
+    plt.rcParams["figure.figsize"] = (22,7)
+
+    dfCooker.plot()
+    plt.xticks(rotation=90)
+    plt.show()
+
+    print(dfCooker.iloc[-1])
+
+    dfCooker.head()
     total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
     num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
 
