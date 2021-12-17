@@ -45,10 +45,10 @@ with st.echo(code_location='below'):
     
     end_time = str(st.date_input('end date'))+'T23:59:59Z'
     
-    st.title(start_time)
+  
     
     tags = st.text_input("input tags")
-    st.title(tags)
+
     if tags and start_time and end_time:
 
 
@@ -64,27 +64,28 @@ with st.echo(code_location='below'):
         }
 
         response = requests.get(data_url, headers=headers_api)
-        st.title(response.status_code)
+        if response.status_code == 200:
 
-        df = pd.DataFrame.from_dict(response.json()['query_results'])
+            df = pd.DataFrame.from_dict(response.json()['query_results'])
 
-        pd.set_option('max_colwidth', 400)
-        df = df[['timestamp','tag_index','tag_name','value']]
-
-
-        df.timestamp = pd.to_datetime(df.timestamp)
-        df.set_index(df.timestamp,inplace=True)
-
-        df.value = round(df.value.astype(int)/10,2)
-
-        dfCooker = pd.pivot_table(df, values='value', index=df.index, columns=['tag_index','tag_name'])
-        dfCooker.columns = ['wonton_cooker_temp1','wonton_cooker_temp3','wonton_cooker_temp2']
-
-        dfCooker = dfCooker.fillna(method='bfill')
+            pd.set_option('max_colwidth', 400)
+            df = df[['timestamp','tag_index','tag_name','value']]
 
 
+            df.timestamp = pd.to_datetime(df.timestamp)
+            df.set_index(df.timestamp,inplace=True)
+
+            df.value = round(df.value.astype(int)/10,2)
+
+            dfCooker = pd.pivot_table(df, values='value', index=df.index, columns=['tag_index','tag_name'])
+            dfCooker.columns = ['wonton_cooker_temp1','wonton_cooker_temp3','wonton_cooker_temp2']
+
+            dfCooker = dfCooker.fillna(method='bfill')
 
 
-        st.line_chart(dfCooker)
 
+
+            st.line_chart(dfCooker)
+        else:
+            st.write('Status code', response)
 
