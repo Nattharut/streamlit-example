@@ -6,7 +6,7 @@ import pandas as pd
 import requests
 import os
 import json
-import matplotlib.pyplot as plt
+
 
 """
 # Welcome to Streamlit!
@@ -52,9 +52,6 @@ with st.echo(code_location='below'):
     pd.set_option('max_colwidth', 400)
     df = df[['timestamp','tag_index','tag_name','value']]
 
-    df.head()
-
-    df.info()
 
     df.timestamp = pd.to_datetime(df.timestamp)
     df.set_index(df.timestamp,inplace=True)
@@ -66,31 +63,13 @@ with st.echo(code_location='below'):
 
     dfCooker = dfCooker.fillna(method='bfill')
 
-    dfCooker.head()
-
-    dfCooker.describe()
-
-    """### Boxplot"""
-
-    ax1 = dfCooker.boxplot()
-    plt.show()
-
-    """### Distribution plot"""
-
-    ax2 = dfCooker.plot(kind='hist', bins=100)
-    plt.show()
-
+   
+ 
     """### Time series plot"""
 
-    import matplotlib.pyplot as plt
-    # plt.style.use('fivethirtyeight')
-    plt.rcParams["figure.figsize"] = (22,7)
+   
+    
 
-    dfCooker.plot()
-    plt.xticks(rotation=90)
-    plt.show()
-
-    print(dfCooker.iloc[-1])
 
     dfCooker.head()
     total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
@@ -109,6 +88,6 @@ with st.echo(code_location='below'):
         y = radius * math.sin(angle)
         data.append(Point(x, y))
 
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
+    st.altair_chart(alt.Chart(dfCooker, height=500, width=500)
         .mark_circle(color='#0068c9', opacity=0.5)
         .encode(x='x:Q', y='y:Q'))
