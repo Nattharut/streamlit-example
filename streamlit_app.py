@@ -62,6 +62,7 @@ with st.echo(code_location='below'):
 
         response = requests.get(data_url, headers=headers_api)
         st.title(response.status_code)
+        st.title(response.json())
         if response.status_code == 200:
 
             df = pd.DataFrame.from_dict(response.json()['query_results'])
