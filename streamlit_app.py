@@ -74,8 +74,8 @@ with st.echo(code_location='below'):
     total_points = st.slider("Number of points in spiral", 1, 5000, 3000)
     num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
 
-    chart_data = dfCooker(
+    chart_data = pd.DataFrame(
      np.random.randn(20, 3),
-     columns = ['wonton_cooker_temp1','wonton_cooker_temp3','wonton_cooker_temp2'])
+     columns=['a', 'b', 'c'])
 
     st.line_chart(chart_data)
