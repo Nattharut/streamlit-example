@@ -43,26 +43,19 @@ with st.echo(code_location='below'):
     end_time = str(st.date_input('end date'))+'T23:59:59Z'
     
   
-    
     tags = st.text_input("input tags")
 
     if tags and start_time and end_time:
 
-
-
-
-
         data_url = f'http://54.254.86.214:2002/api/klaeng/analytics/shrimp-wonton/ti/?start={start_time}&end={end_time}&tags={tags}'
-
         
-
         headers_api = {
             'Authorization': 'Bearer ' + access_token
         }
 
         response = requests.get(data_url, headers=headers_api)
         st.title(response.status_code)
-        st.title(response.json())
+
         if response.status_code == 200:
 
             df = pd.DataFrame.from_dict(response.json()['query_results'])
@@ -80,10 +73,7 @@ with st.echo(code_location='below'):
             dfCooker.columns = ['wonton_cooker_temp1','wonton_cooker_temp3','wonton_cooker_temp2']
 
             dfCooker = dfCooker.fillna(method='bfill')
-
-
-
-
+            
             st.line_chart(dfCooker)
         else:
             st.write('Status code', response)
